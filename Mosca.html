@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Boo/tstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <title>Act311</title>
+    <style>
+        body{
+            background-color: #A4E48E;
+        }
+        input{
+            font-size: 1.1em;
+            background-color: #ddd;
+            border: 3px solid #9fc;
+            border-radius: 5px;
+            padding: 8px;
+            width: 100%;
+            box-shadow: 0 0 20px #4f9;
+            text-align: center;
+        }
+        #botonStart {
+            font-size: 1.1em;
+            background-color: #44A4D5;
+            border: 3px solid #9fc;
+            border-radius: 5px;
+            padding: 8px;
+            width: 100%;
+            box-shadow: 0 0 20px #4f9;
+            text-align: center;
+        }
+        .selva {
+            cursor: url("honeybee.png");
+            background-size: cover;
+            background-image: url("selva.jpg");
+            width: 100%;
+            height: 556px;
+            border: 1px solid;
+            position: relative;
+
+        }
+        #puntero {
+            background-image: url("crosshairs.png");
+            width: 70px;
+            height: 70px;
+            position: absolute; top: 200px; left: 400px;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        #mosca {
+            background-image: url("mosca.gif");
+            width: 70px;
+            height: 70px;
+            position: absolute; top: 200px; left: 400px;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        .input {
+            width: 57%;
+        }
+        
+        #blck {
+            border: 1px solid black;
+        }
+        
+        #camaleon {
+            position: absolute;
+            top: 300px;
+            left: 855px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <div class="container-fluid">
+        <div class="container">
+            <div class="row pt-3">
+                <div class="col">
+                    <input type="text" name="time" value="Tiempo:" id="cuenta">
+                </div>
+                <div class="col">
+                    <input type="text" name="points" value="Puntuación:" id="points">
+                </div>
+                <div class="col">
+                    <button id="botonStart">EMPEZAR</button>
+                </div>
+            </div>
+            <div class="selva mt-3" id="monte">
+                <div id="puntero">
+                </div>
+                <div id="mosca">
+                </div>
+                <img src="chameleon.png" alt="camaleon" width="250" height="250" id="camaleon">
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="movimientos.js">
+        
+    </script>
+</body>
+
+</html>
