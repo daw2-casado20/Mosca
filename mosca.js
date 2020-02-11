@@ -11,17 +11,21 @@ contM = 0;
 var Mosca = new Object();
 Mosca.x = 100;
 Mosca.y = 100;
-Mosca.velX = 10;
-Mosca.vely = 3;
+Mosca.velX = 5;
+Mosca.vely = 5;
 
 Mosca.mover = function() {
     intervalID = setInterval(function() {
         if (Mosca.x > ($(".selva").width() - ($("#mosca").width())) || Mosca.x < 0) { //Si Mosca.X es más grande al ancho del fondo menos el ancho de la mosca
             Mosca.velX = Mosca.velX * (-1);
         }
+        if (Mosca.y > ($(".selva").height() - ($("#mosca").height())) || Mosca.y < 0) { //Si Mosca.X es más grande al ancho del fondo menos el ancho de la mosca
+            Mosca.vely = Mosca.vely * (-1);
+        }
         Mosca.x = Mosca.x + Mosca.velX;
+        Mosca.y = Mosca.y + Mosca.vely;
         $("#mosca").css("left", Mosca.x);
-
+        $("#mosca").css("top", Mosca.y);
     }, 20);
 }
 
@@ -41,14 +45,31 @@ Mira.mover = function() { ////creo el metodo actualiza para actualizar mediante 
     });
 }
 
+function mover2(PosYmosca, PosXmosca) {
+    intervalID = setInterval(function() {
+            if (PosXmosca > ($(".selva").width() - ($("#mosca").width())) || PosXmosca < 0) { //Si Mosca.X es más grande al ancho del fondo menos el ancho de la mosca
+                Mosca.velX = Mosca.velX * (-1);
+            }
+            if (PosYmosca > ($(".selva").height() - ($("#mosca").height())) || PosYmosca < 0) { //Si Mosca.X es más grande al ancho del fondo menos el ancho de la mosca
+                Mosca.vely = Mosca.vely * (-1);
+            }
+            PosXmosca = PosXmosca + Mosca.velX;
+            PosYmosca = PosYmosca + Mosca.vely;
+            $("#mosca").css("left", PosXmosca);
+            $("#mosca").css("top", PosYmosca);
+
+    }, 20);
+}
+
 function reloj() {
     var i = 0;
     setInterval(function() {
-        if (i < 61) {
-            $('#cuenta').val(i.toString());
+        if (i <= 61) {
             i++;
+            $('#cuenta').val(i.toString());
+
             if (i == 61) {
-                alert("El juego a terminado");
+                alert("El juego a terminado, y has conseguido una puntuación de " + contM + ". Si quieres continuar jugando clica a Aceptar.");
                 location.reload();
             }
         }
@@ -76,19 +97,21 @@ function pulsar() {
         if ((e.keyCode == 32) && (coordenadasMosca.left < coordenadasMira.left + 50) && (coordenadasMosca.left > coordenadasMira.left - 50) && (coordenadasMosca.top < coordenadasMira.top + 50) && (coordenadasMosca.top > coordenadasMira.top - 50)) {
             $('#mosca').css('background-image', 'url("mosca_muerta.png")');
             clearInterval(intervalID);
-            setInterval(change, 2000);
+            myTimer = setTimeout(reaparicion, 2000);
         }
     });
 }
 
-function change() {
-
+function reaparicion() {
     $('#mosca').css('background-image', 'url("mosca.gif")');
     //PosXmosca = Math.floor(Math.random() * ($(".selva").width() - ($("#mosca").width())));
     PosYmosca = Math.floor(Math.random() * ($(".selva").height() - ($("#mosca").height())));
-
+    PosXmosca = Math.floor(Math.random() * ($(".selva").width() - ($("#mosca").width())));
     //$("#mosca").css("left", PosXmosca);
+    $("#mosca").css("left", PosXmosca);
     $("#mosca").css("top", PosYmosca);
     clearInterval(intervalID);
-    Mosca.mover();
+    clearInterval(myTimer);
+
+    mover2(PosYmosca, PosXmosca);
 }
