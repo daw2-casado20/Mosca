@@ -1,0 +1,115 @@
+$("#botonStart").click(function() { //cuando se de click a empezar ejecutara las siguientes funciones
+    Mosca.mover(); //funcion
+    Mira.mover(); //funcion
+    miraRoja(); //funcion
+    pulsar(); //funcion
+    reloj(); //funcion
+    $("#botonStart").blur(); //quitamos el foco a el boton empezar
+});
+
+contM = 0; //incializamos contador de puntuacion
+var Mosca = new Object(); //creamos objeto
+Mosca.x = 100; //creamos propiedades
+Mosca.y = 100;
+Mosca.velX = 5;
+Mosca.vely = 5;
+
+Mosca.mover = function() { //funcion para que se mueva la mosca
+    intervalID = setInterval(function() { //hacemos intervalo que se ejecute cada 20 milisegundos
+        if (Mosca.x > ($(".selva").width() - ($("#mosca").width())) || Mosca.x < 0) { //hacemos condicion para que la mosca no salga del ancho del div
+            Mosca.velX = Mosca.velX * (-1); //hacemos que rebote cuando llegue al limite del div
+        }
+        if (Mosca.y > ($(".selva").height() - ($("#mosca").height())) || Mosca.y < 0) { //hacemos condicion para que la mosca no salga del alto del div
+            Mosca.vely = Mosca.vely * (-1); //hacemos que rebote cuando llegue al limite del div
+        }
+        Mosca.x = Mosca.x + Mosca.velX; //sumamos la velocidad con la posicion para lograr que se vaya moviendo
+        Mosca.y = Mosca.y + Mosca.vely;
+        $("#mosca").css("left", Mosca.x); //sustituimos por la nueva posicion
+        $("#mosca").css("top", Mosca.y);
+    }, 20);
+}
+
+var Mira = new Object(); //creamos objeto
+Mira.X = 0; //creamos propiedades
+Mira.Y = 0;
+Mira.sobre = true;
+
+Mira.mover = function() { //funcion para que se mueva la mira
+    $(".selva").mousemove(function() { //cuando se detecte un movimiento sobre el div principal
+        Mira.X = event.clientX - $(this).offset().left; //obtenemos las coordenadas de nuestra mira
+        Mira.Y = event.clientY - $(this).offset().top; 
+        if ((Mira.X <= 1076.00) && (Mira.X >= 35.659) && (Mira.Y <= 515.00) && (Mira.Y >= 30.00)) { //ponemos margenes para evitar que la mira salga del div
+            $("#puntero").css("left", Mira.X - 34); //ponemos la nueva posicion de nuestro puntero
+            $("#puntero").css("top", Mira.Y - 30);
+        }
+    });
+}
+
+function mover2(PosYmosca, PosXmosca) { //funcion para que la mosca aparezca en otra posicion y se mueva
+    intervalID = setInterval(function() { //hacemos intervalo que se ejecute cada 20 milisegundos
+            if (PosXmosca > ($(".selva").width() - ($("#mosca").width())) || PosXmosca < 0) { //hacemos condicion para que la mosca no salga del ancho del div
+                //Mosca.velX = Mosca.velX * Math.floor(Math.random());
+                Mosca.velX = Mosca.velX * (-1); //hacemos que rebote cuando llegue al limite del div
+            }
+            if (PosYmosca > ($(".selva").height() - ($("#mosca").height())) || PosYmosca < 0) { //hacemos condicion para que la mosca no salga del alto del div
+                Mosca.vely = Mosca.vely * (-1); //hacemos que rebote cuando llegue al limite del div
+            }
+            PosXmosca = PosXmosca + Mosca.velX; //sumamos la velocidad con la posicion para lograr que se vaya moviendo
+            PosYmosca = PosYmosca + Mosca.vely;
+            $("#mosca").css("left", PosXmosca); //sustituimos por la nueva posicion
+            $("#mosca").css("top", PosYmosca);
+    }, 20);
+}
+
+function reloj() { //funcion para contar el tiempo
+    var i = 0; //inicializamos contador
+    setInterval(function() { //abrimos intervalo
+        if (i <= 61) { //si es menor o igual a 61
+            i++; //sumamos 1
+            $('#cuenta').val(i.toString()); //hacemos que se sustituya el valor del input
+
+            if (i == 61) { //cuando llegue a 61
+                alert("El juego a terminado, y has conseguido una puntuación de " + contM + ". Si quieres continuar jugando clicka a Aceptar."); //mostrar alert
+                location.reload(); //recargar pagina
+            }
+        }
+    }, 1000); //hacemos que se ejecute cada 1000 milisegundos osea 1 minuto
+}
+
+function miraRoja() { //funcion que cambia el color de la mira
+    $("#mosca").mouseover(function() { //cuando detecte un movimiento encima de la mosca
+        $("#puntero").css("border", "4px red solid"); //poner borde al puntero
+        $("#puntero").css("border-radius", "100px");
+    });
+    $("#mosca").mouseout(function() { //cuando no detecte un movimiento encima de la mosca
+        $("#puntero").css("border", "none"); //quitar borde
+    });
+}
+
+function pulsar() { //funcion para cuando pulsemos encima de la mosca
+    $(document).keypress(function(e) { //cuando que pulsemos una tecla cojemos su valor
+        coordenadasMira = $("#puntero").position(); //cojemos las coordenadas de la mira
+        coordenadasMosca = $("#mosca").position(); //cojemos coordenadas de la mosca
+        if ((e.keyCode == 32) && (coordenadasMosca.left < coordenadasMira.left + 50) && (coordenadasMosca.left > coordenadasMira.left - 50) && (coordenadasMosca.top < coordenadasMira.top + 50) && (coordenadasMosca.top > coordenadasMira.top - 50)) {
+            contM = contM + 1; //sumamos el contador
+            $('#points').val(contM.toString()); //cambiamos el valor de input
+        }
+        if ((e.keyCode == 32) && (coordenadasMosca.left < coordenadasMira.left + 50) && (coordenadasMosca.left > coordenadasMira.left - 50) && (coordenadasMosca.top < coordenadasMira.top + 50) && (coordenadasMosca.top > coordenadasMira.top - 50)) {
+            $('#mosca').css('background-image', 'url("mosca_muerta.png")'); //hacemos que la mosca se muera
+            clearInterval(intervalID); //hacemos que se pare el intervalo que la mueve
+            myTimer = setTimeout(reaparicion, 2000); //hacemos que a los 2 segundos llame a reaparecion
+        }
+    });
+}
+
+function reaparicion() { //funcion que hace que la mosca reaparezca
+    $('#mosca').css('background-image', 'url("mosca.gif")'); //cambiamos por la mosca viva
+    PosYmosca = Math.floor(Math.random() * ($(".selva").height() - ($("#mosca").height()))); //sacamos un aleatorio dentro del div 
+    PosXmosca = Math.floor(Math.random() * ($(".selva").width() - ($("#mosca").width())));
+    $("#mosca").css("left", PosXmosca); //cambiamos la posicion a la posicion aleatoria
+    $("#mosca").css("top", PosYmosca);
+    clearInterval(intervalID); //limpiamos los dos intervalos anteriormente ejecutados
+    clearInterval(myTimer); 
+
+    mover2(PosYmosca, PosXmosca); //llamamos a la otra funcion y le pasamos las nuevas posiciones
+}
